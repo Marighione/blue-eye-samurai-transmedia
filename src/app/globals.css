@@ -2,26 +2,123 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Lenguaje 1 — Tinta + Papel */
+    --color-paper: #F5F0E8;
+    --color-paper-dark: #E8E0D0;
+    --color-ink: #1A1614;
+    --color-ink-faded: #4A3F38;
+    --color-blood: #8B1A1A;
+    --color-blood-bright: #C41E1E;
+    --color-sepia: #6B4C3B;
+
+    /* Lenguaje 2 — Azul Frío + Niebla */
+    --color-night: #0D1B2A;
+    --color-deep-blue: #1B263B;
+    --color-slate: #415A77;
+    --color-mist: #6FA8DC;
+    --color-mist-light: #A8C8E8;
+    --color-snow: #E8F0F8;
+    --color-eye-blue: #4A90C4;
+
+    /* Lenguaje 3 — Dorado + Fuego */
+    --color-gold: #C58A2A;
+    --color-gold-bright: #E8B14B;
+    --color-wood: #7A4A15;
+    --color-fire: #D4520A;
+    --color-ember: #8B3A0A;
+    --color-lacquer: #8B0000;
+
+    /* Tokens funcionales */
+    --color-bg-primary: #0D1B2A;
+    --color-bg-secondary: #1B263B;
+    --color-text-primary: #F5F0E8;
+    --color-text-secondary: #A8C8E8;
+    --color-text-muted: #6FA8DC;
+    --color-accent: #C58A2A;
+    --color-accent-hover: #E8B14B;
+    --color-danger: #8B1A1A;
+    --color-border: rgba(165, 140, 100, 0.2);
+    --color-border-emphasis: rgba(197, 138, 42, 0.5);
+
+    /* Tipografía */
+    --font-display: 'Cinzel', serif;
+    --font-narrative: 'EB Garamond', serif;
+    --font-ui: 'Cormorant Garamond', serif;
+
+    /* Escala tipográfica */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem;
+    --text-4xl: 2.25rem;
+    --text-5xl: 3rem;
+    --text-6xl: 3.75rem;
+    --text-7xl: 4.5rem;
+
+    /* Animaciones */
+    --duration-fast: 300ms;
+    --duration-base: 500ms;
+    --duration-slow: 800ms;
+    --duration-cinema: 1200ms;
+    --duration-epic: 2000ms;
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-expo: cubic-bezier(0.7, 0, 0.84, 0);
+    --ease-inout: cubic-bezier(0.76, 0, 0.24, 1);
+
+    /* Grid */
+    --grid-margin: clamp(1.5rem, 6vw, 8rem);
+    --content-max-width: 1400px;
   }
-}
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
+  body {
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: var(--font-narrative);
+  }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  /* Textura de papel oscuro */
+  .texture-dark {
+    background-color: var(--color-night);
+    background-image:
+      radial-gradient(ellipse at 30% 70%, rgba(65, 90, 119, 0.3) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 20%, rgba(27, 38, 59, 0.5) 0%, transparent 50%);
+  }
+
+  /* Textura de papel claro */
+  .texture-paper {
+    background-color: var(--color-paper);
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(180, 140, 100, 0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(140, 100, 60, 0.1) 0%, transparent 50%);
+  }
+
+  /* Efecto de niebla */
+  .effect-fog {
+    background:
+      radial-gradient(ellipse 100% 60% at 50% 100%, rgba(111, 168, 220, 0.15) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 20% 50%, rgba(27, 38, 59, 0.8) 0%, transparent 100%),
+      var(--color-night);
+  }
+
+  /* Viñeta */
+  .vignette {
+    box-shadow: inset 0 0 150px rgba(13, 27, 42, 0.7);
+  }
+
+  /* Badge narrativo */
+  .badge-narrative {
+    border: 1px solid var(--color-border-emphasis);
+    padding: 0.25rem 0.75rem;
+    font-family: var(--font-ui);
+    font-size: var(--text-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    background: transparent;
   }
 }
