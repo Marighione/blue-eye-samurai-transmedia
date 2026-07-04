@@ -3,9 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
-import { NarrativeColumn } from '@/components/layout/NarrativeColumn';
 import { Typography } from '@/components/primitives/Typography';
-import { Divider } from '@/components/primitives/Divider';
 import { setInitialChoice } from '@/lib/user-state';
 import { useUserState } from '@/context/UserStateContext';
 

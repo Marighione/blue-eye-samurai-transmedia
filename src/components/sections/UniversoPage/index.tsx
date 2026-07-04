@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { NarrativeMap } from '@/components/narrative/NarrativeMap';
 import { NarrativeColumn } from '@/components/layout/NarrativeColumn';
 import { InkSplatter } from '@/components/primitives/InkSplatter';
-import { Divider } from '@/components/primitives/Divider';
 import { staggerContainer, revealFromFog } from '@/lib/animations';
 import { useUserState } from '@/context/UserStateContext';
 

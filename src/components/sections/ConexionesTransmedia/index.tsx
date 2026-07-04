@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { staggerContainer, revealFromFog } from '@/lib/animations';
 import { Divider } from '@/components/primitives/Divider';
-import { Button } from '@/components/primitives/Button';
 
 const JOURNEY_STEPS = [
   { number: 1, platform: 'Netflix', color: '#C41E1E' },

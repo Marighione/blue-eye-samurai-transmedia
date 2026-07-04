@@ -8,12 +8,6 @@ import { rvExperiences } from '@/data/rv-experiences';
 import { Divider } from '@/components/primitives/Divider';
 import { Button } from '@/components/primitives/Button';
 
-const INTENSITY_COLORS: Record<string, string> = {
-  Alta: '#FF776B',
-  Media: '#ECB357',
-  Baja: '#00BCCE',
-};
-
 interface FormData {
   nombre: string;
   email: string;
@@ -42,13 +36,6 @@ export function RealidadVirtualPage() {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
-
-  const scrollToForm = (preselect?: string) => {
-    if (preselect) {
-      setFormData((prev) => ({ ...prev, recorrido: preselect }));
-    }
-    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
 
   const validate = (): FormErrors => {
     const e: FormErrors = {};
