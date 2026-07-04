@@ -4,22 +4,14 @@ import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { staggerContainer, revealFromFog } from '@/lib/animations';
-import { useUserState } from '@/context/UserStateContext';
 import { rvExperiences } from '@/data/rv-experiences';
 import { Divider } from '@/components/primitives/Divider';
 import { Button } from '@/components/primitives/Button';
 
-const PROFILE_LABELS: Record<string, string> = {
-  llama: 'La Llama',
-  balanza: 'La Balanza',
-  rio: 'El Río',
-  niebla: 'La Niebla',
-};
-
 const INTENSITY_COLORS: Record<string, string> = {
-  Alta: '#C41E1E',
-  Media: '#C58A2A',
-  Baja: '#4A90C4',
+  Alta: '#FF776B',
+  Media: '#ECB357',
+  Baja: '#00BCCE',
 };
 
 interface FormData {
@@ -41,7 +33,6 @@ function validateEmail(email: string): boolean {
 }
 
 export function RealidadVirtualPage() {
-  const { state } = useUserState();
   const formRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState<FormData>({
     nombre: '',
@@ -51,10 +42,6 @@ export function RealidadVirtualPage() {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
-
-  const recommended = state.quizMoralResult
-    ? rvExperiences.find((e) => e.recommendedFor === state.quizMoralResult)
-    : null;
 
   const scrollToForm = (preselect?: string) => {
     if (preselect) {
@@ -94,26 +81,27 @@ export function RealidadVirtualPage() {
   };
 
   return (
-    <div className="min-h-screen bg-night">
+    <div className="min-h-screen texture-dark">
       {/* Hero */}
       <div className="relative min-h-[70vh] flex items-end">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/fire-scene.png"
+            src="/images/RV.png"
             alt=""
             fill
             className="object-cover"
             quality={85}
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-night via-night/70 to-night/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-night via-night/60 to-night/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-night/60 via-transparent to-transparent" />
         </div>
 
         <div className="relative z-10 w-full px-8 md:px-20 pb-20">
           <motion.div variants={staggerContainer} initial="hidden" animate="visible">
             <motion.p
               variants={revealFromFog}
-              className="font-ui text-xs font-semibold uppercase tracking-widest text-gold/60 mb-4"
+              className="font-ui text-sm font-semibold uppercase tracking-widest text-snow mb-4"
             >
               Experiencia inmersiva
             </motion.p>
@@ -125,7 +113,7 @@ export function RealidadVirtualPage() {
             </motion.h1>
             <motion.p
               variants={revealFromFog}
-              className="font-narrative italic text-snow/70 text-lg md:text-xl max-w-xl leading-relaxed"
+              className="font-narrative italic text-snow/90 text-lg md:text-xl max-w-xl leading-relaxed"
             >
               Tres recorridos. El tuyo depende de quién sos.
             </motion.p>
@@ -133,31 +121,8 @@ export function RealidadVirtualPage() {
         </div>
       </div>
 
-      {/* Banner personalizado */}
-      {recommended && state.quizMoralResult && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-          className="mx-8 md:mx-20 -mt-6 mb-16 border border-gold/30 bg-deep-blue/60 p-8 md:p-10"
-        >
-          <p className="font-ui text-xs font-semibold uppercase tracking-widest text-gold/70 mb-3">
-            Recomendación basada en tu perfil: {PROFILE_LABELS[state.quizMoralResult]}
-          </p>
-          <h2 className="font-display text-2xl md:text-3xl text-snow tracking-wide mb-3">
-            {recommended.name}
-          </h2>
-          <p className="font-narrative text-snow/75 leading-relaxed max-w-2xl mb-6">
-            {recommended.description}
-          </p>
-          <Button variant="primary" size="sm" onClick={() => scrollToForm(recommended.id)}>
-            Reservar este recorrido
-          </Button>
-        </motion.div>
-      )}
-
       {/* Recorridos */}
-      <div className="px-8 md:px-20 py-16">
+      <div className="relative section-fade-top px-8 md:px-20 py-16">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -173,47 +138,30 @@ export function RealidadVirtualPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {rvExperiences.map((exp) => {
-              const isRecommended = recommended?.id === exp.id;
               return (
                 <motion.div
                   key={exp.id}
                   variants={revealFromFog}
-                  className={`border p-8 transition-all duration-500 hover:bg-deep-blue/30 ${
-                    isRecommended
-                      ? 'border-gold/40 bg-deep-blue/20'
-                      : 'border-white/10 bg-transparent'
-                  }`}
+                  className="border border-white/10 hover:border-gold/30 p-8 transition-all duration-500"
+                  style={{ backgroundColor: 'rgba(27, 38, 59, 0.8)' }}
                 >
-                  {isRecommended && (
-                    <p className="font-ui text-[10px] font-semibold uppercase tracking-widest text-gold mb-4">
-                      Recomendado para vos
-                    </p>
-                  )}
                   <h3 className="font-display text-xl text-snow tracking-wide mb-4">
                     {exp.name}
                   </h3>
-                  <p className="font-narrative text-snow/75 text-sm leading-relaxed mb-6">
+                  <p className="font-narrative text-snow/85 text-sm leading-relaxed mb-6">
                     {exp.description}
                   </p>
 
-                  <div className="flex items-center gap-4 mb-6">
-                    <span className="font-ui text-xs text-mist/70 uppercase tracking-wider">
+                  <div className="flex items-center gap-4">
+                    <span className="font-ui text-sm text-mist uppercase tracking-wider">
                       {exp.duration}
                     </span>
                     <span
-                      className="font-ui text-xs font-semibold uppercase tracking-wider"
-                      style={{ color: INTENSITY_COLORS[exp.intensity] }}
+                      className="font-ui text-sm font-semibold uppercase tracking-wider text-snow"
                     >
                       Intensidad {exp.intensity}
                     </span>
                   </div>
-
-                  <button
-                    onClick={() => scrollToForm(exp.id)}
-                    className="font-ui text-xs font-semibold uppercase tracking-widest text-gold/70 hover:text-gold transition-colors duration-300"
-                  >
-                    Reservar →
-                  </button>
                 </motion.div>
               );
             })}
@@ -240,7 +188,7 @@ export function RealidadVirtualPage() {
           </motion.h2>
           <motion.p
             variants={revealFromFog}
-            className="font-narrative italic text-snow/60 mb-12"
+            className="font-narrative italic text-snow/80 mb-12"
           >
             El formulario no envía datos reales. Es una simulación dentro del universo narrativo.
           </motion.p>
@@ -260,7 +208,7 @@ export function RealidadVirtualPage() {
                 <div>
                   <label
                     htmlFor="rv-nombre"
-                    className="block font-ui text-xs font-semibold uppercase tracking-widest text-mist mb-3"
+                    className="block font-ui text-sm font-semibold uppercase tracking-widest text-snow mb-3"
                   >
                     Nombre
                   </label>
@@ -281,7 +229,7 @@ export function RealidadVirtualPage() {
                 <div>
                   <label
                     htmlFor="rv-email"
-                    className="block font-ui text-xs font-semibold uppercase tracking-widest text-mist mb-3"
+                    className="block font-ui text-sm font-semibold uppercase tracking-widest text-snow mb-3"
                   >
                     Email
                   </label>
@@ -302,7 +250,7 @@ export function RealidadVirtualPage() {
                 <div>
                   <label
                     htmlFor="rv-fecha"
-                    className="block font-ui text-xs font-semibold uppercase tracking-widest text-mist mb-3"
+                    className="block font-ui text-sm font-semibold uppercase tracking-widest text-snow mb-3"
                   >
                     Fecha preferida
                   </label>
@@ -322,7 +270,7 @@ export function RealidadVirtualPage() {
                 <div>
                   <label
                     htmlFor="rv-recorrido"
-                    className="block font-ui text-xs font-semibold uppercase tracking-widest text-mist mb-3"
+                    className="block font-ui text-sm font-semibold uppercase tracking-widest text-snow mb-3"
                   >
                     Recorrido
                   </label>
@@ -372,10 +320,10 @@ export function RealidadVirtualPage() {
                 <h3 className="font-display text-2xl md:text-3xl text-snow tracking-wide mb-4">
                   Reserva confirmada
                 </h3>
-                <p className="font-narrative italic text-snow/70 text-lg leading-relaxed max-w-md mx-auto mb-8">
+                <p className="font-narrative italic text-snow/90 text-lg leading-relaxed max-w-md mx-auto mb-8">
                   Tu lugar en el camino está reservado. No hace falta que traigas nada excepto lo que ya sabés sobre vos.
                 </p>
-                <p className="font-ui text-xs text-mist/60 uppercase tracking-widest">
+                <p className="font-ui text-sm text-mist/80 uppercase tracking-widest">
                   {formData.nombre} · {rvExperiences.find((e) => e.id === formData.recorrido)?.name} · {formData.fecha}
                 </p>
 

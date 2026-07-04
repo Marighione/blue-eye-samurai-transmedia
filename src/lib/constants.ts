@@ -24,6 +24,6 @@ export const NAV_ITEMS = [
   { label: 'Personajes', href: '/personajes' },
   { label: 'Archivo', href: '/archivo' },
   { label: 'Experiencias', href: '/experiencias' },
-  { label: 'Experiencia RV', href: '/realidad-virtual', featured: true },
   { label: 'Conexiones', href: '/conexiones' },
+  { label: 'Experiencia RV', href: '/realidad-virtual', featured: true },
 ] as const;

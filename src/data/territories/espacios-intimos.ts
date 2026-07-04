@@ -4,7 +4,7 @@ export const espaciosIntimosData: Territory = {
   id: 'espacios-intimos',
   name: 'Los Espacios Íntimos',
   subtitle: 'Donde la guardia baja porque el peso de llevarla se vuelve insoportable',
-  dominantColor: '#C58A2A',
+  dominantColor: '#ECB357',
   symbol: 'Vela encendida en una habitación vacía',
   centralConflict: 'Vulnerabilidad, humanidad, conexión',
   narrativeDescription: 'Los momentos y espacios donde los personajes bajan la guardia: no porque sea seguro, sino porque el peso de llevarla se vuelve insoportable. Aquí aparece la dimensión más humana del universo.',

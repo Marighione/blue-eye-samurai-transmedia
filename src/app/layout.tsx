@@ -3,6 +3,7 @@ import { Cinzel, EB_Garamond, Cormorant_Garamond } from 'next/font/google';
 import './globals.css';
 import { UserStateProvider } from '@/context/UserStateContext';
 import { Navigation } from '@/components/ui/Navigation';
+import { Footer } from '@/components/ui/Footer';
 import { SITE_NAME, SITE_DESCRIPTION } from '@/lib/constants';
 
 const cinzel = Cinzel({
@@ -43,11 +44,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${cinzel.variable} ${ebGaramond.variable} ${cormorantGaramond.variable}`}>
-      <body className="antialiased bg-night text-snow min-h-screen">
+    <html lang="es" suppressHydrationWarning className={`${cinzel.variable} ${ebGaramond.variable} ${cormorantGaramond.variable}`}>
+      <body className="antialiased bg-night text-snow min-h-screen" suppressHydrationWarning>
         <UserStateProvider>
           <Navigation />
           <main>{children}</main>
+          <Footer />
         </UserStateProvider>
       </body>
     </html>

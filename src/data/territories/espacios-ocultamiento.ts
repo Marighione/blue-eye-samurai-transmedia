@@ -4,7 +4,7 @@ export const espaciosOcultamientoData: Territory = {
   id: 'espacios-ocultamiento',
   name: 'Los Espacios de Ocultamiento',
   subtitle: 'Donde los personajes pueden ser algo distinto a lo que deben ser',
-  dominantColor: '#415A77',
+  dominantColor: '#6DE8F0',
   symbol: 'Máscara de madera sobre fondo oscuro',
   centralConflict: 'Máscara como protección, identidad fracturada',
   narrativeDescription: 'Las posadas, los sótanos, los establos, los pasillos traseros: los espacios donde los personajes pueden, por un momento, ser algo distinto a lo que se supone que deben ser. O donde deben construir la siguiente versión de sí mismos para sobrevivir al día siguiente.',

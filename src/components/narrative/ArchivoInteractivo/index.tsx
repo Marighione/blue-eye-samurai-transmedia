@@ -6,6 +6,7 @@ import { DocumentCard } from '@/components/ui/DocumentCard';
 import { Modal } from '@/components/ui/Modal';
 import { InkSplatter } from '@/components/primitives/InkSplatter';
 import { Badge } from '@/components/primitives/Badge';
+import { Divider } from '@/components/primitives/Divider';
 import { staggerContainer, revealFromFog } from '@/lib/animations';
 import { processUnlockConditions, isDocumentUnlocked } from '@/lib/unlock-logic';
 import { useUserState } from '@/context/UserStateContext';
@@ -45,52 +46,45 @@ export function ArchivoInteractivo() {
   const usedTypes = Array.from(new Set(archiveDocuments.map((d) => d.type)));
 
   return (
-    <div
-      className="min-h-screen relative"
-      style={{
-        backgroundColor: '#F5F0E8',
-        backgroundImage: `
-          radial-gradient(ellipse at 20% 50%, rgba(180,140,100,0.15) 0%, transparent 60%),
-          radial-gradient(ellipse at 80% 20%, rgba(140,100,60,0.1) 0%, transparent 50%)
-        `,
-      }}
-    >
+    <div className="min-h-screen texture-dark relative">
       {/* Decoración */}
       <InkSplatter variant="ink" size="lg" opacity={0.04} className="absolute top-32 right-10" index={1} />
       <InkSplatter variant="ink" size="md" opacity={0.03} className="absolute bottom-40 left-8" index={3} />
 
       {/* Header */}
-      <div className="pt-28 pb-10 px-8 md:px-16 border-b border-ink/8">
+      <div className="pt-32 pb-16 px-8 md:px-20">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
         >
-          <motion.p variants={revealFromFog} className="font-ui text-xs font-semibold uppercase tracking-widest text-sepia/60 mb-4">
+          <motion.p variants={revealFromFog} className="font-ui text-sm font-semibold uppercase tracking-widest text-snow mb-4">
             Expediente
           </motion.p>
-          <motion.h1 variants={revealFromFog} className="font-display text-5xl md:text-6xl font-semibold text-ink tracking-wide mb-4">
+          <motion.h1 variants={revealFromFog} className="font-display text-5xl md:text-6xl font-semibold text-snow tracking-wide mb-4">
             El Archivo
           </motion.h1>
-          <motion.p variants={revealFromFog} className="font-narrative italic text-ink-faded/70 text-lg max-w-lg">
+          <motion.p variants={revealFromFog} className="font-narrative italic text-snow/80 text-lg max-w-lg leading-relaxed">
             Documentos, cartas y testimonios. Algunos esperan ser descubiertos.
           </motion.p>
 
           {/* Conteo */}
-          <motion.p variants={revealFromFog} className="font-ui text-xs text-sepia/50 uppercase tracking-widest mt-4">
+          <motion.p variants={revealFromFog} className="font-ui text-sm text-mist uppercase tracking-widest mt-6">
             {unlockedIds.length} / {archiveDocuments.length} piezas descubiertas
           </motion.p>
         </motion.div>
       </div>
 
+      <Divider variant="sword" className="mx-8 md:mx-20 opacity-20" />
+
       {/* Filtros */}
-      <div className="px-8 md:px-16 py-6 flex flex-wrap gap-3 border-b border-ink/8">
+      <div className="px-8 md:px-20 py-8 flex flex-wrap gap-3">
         <button
           onClick={() => setActiveFilter(null)}
-          className={`font-ui text-xs font-semibold uppercase tracking-widest px-3 py-1 border transition-colors duration-200 ${
+          className={`font-ui text-sm font-semibold uppercase tracking-widest px-4 py-2 border transition-colors duration-300 ${
             activeFilter === null
-              ? 'border-sepia/60 text-sepia bg-sepia/5'
-              : 'border-ink/15 text-ink/40 hover:border-ink/30 hover:text-ink/60'
+              ? 'border-gold/60 text-gold bg-gold/10'
+              : 'border-white/15 text-snow/60 hover:border-gold/40 hover:text-snow'
           }`}
         >
           Todos
@@ -99,10 +93,10 @@ export function ArchivoInteractivo() {
           <button
             key={type}
             onClick={() => setActiveFilter(activeFilter === type ? null : type)}
-            className={`font-ui text-xs font-semibold uppercase tracking-widest px-3 py-1 border transition-colors duration-200 ${
+            className={`font-ui text-sm font-semibold uppercase tracking-widest px-4 py-2 border transition-colors duration-300 ${
               activeFilter === type
-                ? 'border-sepia/60 text-sepia bg-sepia/5'
-                : 'border-ink/15 text-ink/40 hover:border-ink/30 hover:text-ink/60'
+                ? 'border-gold/60 text-gold bg-gold/10'
+                : 'border-white/15 text-snow/60 hover:border-gold/40 hover:text-snow'
             }`}
           >
             {TYPE_LABELS[type]}
@@ -110,8 +104,8 @@ export function ArchivoInteractivo() {
         ))}
       </div>
 
-      {/* Documentos — disposición tipo "esparcidos sobre una mesa" */}
-      <div className="relative px-8 md:px-16 py-16 min-h-[900px]">
+      {/* Documentos */}
+      <div className="relative px-8 md:px-20 py-16 min-h-[900px]">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
@@ -130,7 +124,6 @@ export function ArchivoInteractivo() {
                   animate={{ opacity: isFiltered ? 0.2 : 1 }}
                   transition={{ duration: 0.4 }}
                   style={{
-                    // Desplazamiento vertical leve alternado para simular documentos esparcidos
                     marginTop: i % 3 === 1 ? '2rem' : i % 3 === 2 ? '4rem' : '0',
                   }}
                 >
@@ -158,14 +151,14 @@ function DocumentModal({ doc }: { doc: ArchiveDocument }) {
   return (
     <div className="p-8 md:p-12">
       {/* Encabezado del documento */}
-      <div className="mb-8 pb-6 border-b border-ink/10">
-        <p className="font-ui text-xs font-semibold uppercase tracking-widest text-sepia/70 mb-2">
+      <div className="mb-8 pb-6 border-b border-white/10">
+        <p className="font-ui text-base font-semibold uppercase tracking-widest text-mist mb-2">
           {doc.typeLabel}
         </p>
         {doc.sourceLabel && (
-          <p className="font-narrative italic text-ink-faded/60 text-sm mb-3">{doc.sourceLabel}</p>
+          <p className="font-narrative italic text-snow/50 text-base mb-3">{doc.sourceLabel}</p>
         )}
-        <h2 className="font-display text-2xl md:text-3xl font-normal text-ink tracking-wide">
+        <h2 className="font-display text-2xl md:text-3xl font-normal text-snow tracking-wide">
           {doc.title}
         </h2>
       </div>
@@ -175,8 +168,8 @@ function DocumentModal({ doc }: { doc: ArchiveDocument }) {
         {doc.text.split('\n\n').map((para, i) => (
           <p
             key={i}
-            className={`font-narrative leading-loose text-ink/80 ${
-              i === 0 && para.startsWith('*') ? 'italic text-sm text-ink-faded/70' : 'text-base'
+            className={`font-narrative leading-loose text-snow/80 ${
+              i === 0 && para.startsWith('*') ? 'italic text-base text-snow/50' : 'text-base'
             }`}
           >
             {para.replace(/^\*|\*$/g, '')}
@@ -186,8 +179,8 @@ function DocumentModal({ doc }: { doc: ArchiveDocument }) {
 
       {/* Footer */}
       {doc.relatedCharacters && doc.relatedCharacters.length > 0 && (
-        <div className="mt-10 pt-6 border-t border-ink/10 flex gap-2 flex-wrap">
-          <span className="font-ui text-xs uppercase tracking-widest text-sepia/50 mr-2">
+        <div className="mt-10 pt-6 border-t border-white/10 flex gap-2 flex-wrap">
+          <span className="font-ui text-base uppercase tracking-widest text-mist mr-2">
             Relacionado:
           </span>
           {doc.relatedCharacters.map((slug) => (

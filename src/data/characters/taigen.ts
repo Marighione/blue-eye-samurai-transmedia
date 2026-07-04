@@ -47,6 +47,6 @@ Su arco es el de alguien que tiene que elegir entre la comodidad de sus certezas
   colorScheme: {
     primary: '#1A1614',
     secondary: '#4A3F38',
-    accent: '#C58A2A',
+    accent: '#ECB357',
   },
 };

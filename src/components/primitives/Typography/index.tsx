@@ -30,10 +30,10 @@ const variantStyles: Record<string, string> = {
   'narrative': 'font-narrative text-lg leading-relaxed',
   'narrative-italic': 'font-narrative text-lg italic leading-relaxed',
   'quote': 'font-narrative text-xl italic leading-relaxed',
-  'label': 'font-ui text-xs font-semibold uppercase tracking-widest',
+  'label': 'font-ui text-sm font-semibold uppercase tracking-widest',
   'nav': 'font-ui text-base font-medium',
   'cta': 'font-ui text-sm font-semibold uppercase tracking-wider',
-  'caption': 'font-ui text-xs font-normal',
+  'caption': 'font-ui text-sm font-normal',
 };
 
 const defaultElements: Record<string, ElementType> = {

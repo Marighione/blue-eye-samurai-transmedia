@@ -79,6 +79,6 @@ Eligió disfrazarse de hombre no solo por táctica sino porque el mundo masculin
   colorScheme: {
     primary: '#0D1B2A',
     secondary: '#415A77',
-    accent: '#4A90C4',
+    accent: '#00BCCE',
   },
 };

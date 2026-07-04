@@ -36,7 +36,7 @@ export function Modal({ isOpen, onClose, children, size = 'document' }: ModalPro
           onClick={onClose}
         >
           {/* Overlay */}
-          <div className="absolute inset-0 bg-night/90" />
+          <div className="absolute inset-0 bg-night/95" />
 
           {/* Panel */}
           <motion.div
@@ -45,20 +45,14 @@ export function Modal({ isOpen, onClose, children, size = 'document' }: ModalPro
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className={`relative z-10 w-full ${maxW} max-h-[85vh] overflow-y-auto`}
-            style={{
-              backgroundColor: '#F5F0E8',
-              backgroundImage: `
-                radial-gradient(ellipse at 20% 50%, rgba(180,140,100,0.15) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 20%, rgba(140,100,60,0.1) 0%, transparent 50%)
-              `,
-            }}
+            className={`relative z-10 w-full ${maxW} max-h-[85vh] overflow-y-auto border border-white/10`}
+            style={{ backgroundColor: 'rgba(27, 38, 59, 0.95)' }}
           >
             {/* Botón de cierre */}
             <button
               onClick={onClose}
               aria-label="Cerrar"
-              className="absolute top-4 right-5 font-ui text-2xl text-ink-faded/60 hover:text-ink transition-colors duration-200 leading-none z-10"
+              className="absolute top-4 right-5 font-ui text-2xl text-snow/60 hover:text-snow transition-colors duration-200 leading-none z-10"
             >
               ×
             </button>

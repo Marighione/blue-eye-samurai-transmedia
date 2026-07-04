@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
 import { NarrativeColumn } from '@/components/layout/NarrativeColumn';
@@ -31,9 +31,13 @@ const FOLLOWUP: Record<string, string> = {
 
 export function HomeQuizInitial() {
   const { state, refreshState } = useUserState();
-  const [selected, setSelected] = useState<'ocultar' | 'enfrentar' | null>(
-    state.quizInitialChoice
-  );
+  const [selected, setSelected] = useState<'ocultar' | 'enfrentar' | null>(null);
+
+  useEffect(() => {
+    if (state.quizInitialChoice) {
+      setSelected(state.quizInitialChoice);
+    }
+  }, [state.quizInitialChoice]);
 
   function handleSelect(choice: 'ocultar' | 'enfrentar') {
     if (selected) return;
@@ -43,49 +47,53 @@ export function HomeQuizInitial() {
   }
 
   return (
-    <SectionWrapper visualLanguage="blue-cold" className="py-32 md:py-40">
-      <NarrativeColumn width="content">
+    <SectionWrapper visualLanguage="blue-cold" className="py-32 md:py-40 section-fade-top section-fade-bottom">
+      <div className="max-w-site mx-auto px-8 md:px-16">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.8 }}
         >
-          <Typography variant="label" className="text-mist mb-6 block">
-            Elegí tu camino
-          </Typography>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
+            {/* Columna izquierda: texto narrativo */}
+            <div className="bg-deep-blue/55 p-10 md:p-16 flex flex-col justify-center">
+              <Typography variant="label" className="text-mist mb-6 block">
+                Elegí tu camino
+              </Typography>
 
-          <Typography variant="narrative" className="text-snow/80 mb-4 leading-loose">
-            Estás en un mundo que no tiene lugar para vos. Tu diferencia es visible. No podés
-            cambiarla. Lo que sí podés decidir es qué hacés con ella.
-          </Typography>
-          <Typography variant="narrative-italic" className="text-mist mb-12 leading-loose">
-            Dos caminos posibles. No hay uno correcto.
-          </Typography>
+              <Typography variant="narrative" className="text-snow/85 mb-4 text-lg leading-loose">
+                Estás en un mundo que no tiene lugar para vos. Tu diferencia es visible. No podés
+                cambiarla. Lo que sí podés decidir es qué hacés con ella.
+              </Typography>
+              <Typography variant="narrative-italic" className="text-mist text-lg leading-loose">
+                Dos caminos posibles. No hay uno correcto.
+              </Typography>
+            </div>
 
-          <Divider variant="sword" className="mb-12" />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {OPTIONS.map((opt) => (
-              <motion.button
-                key={opt.id}
-                onClick={() => handleSelect(opt.id)}
-                disabled={!!selected}
-                whileHover={!selected ? { scale: 1.01 } : {}}
-                animate={
-                  selected === opt.id
-                    ? { borderColor: 'rgba(232,177,75,1)', backgroundColor: 'rgba(197,138,42,0.12)' }
-                    : selected && selected !== opt.id
-                    ? { opacity: 0.3 }
-                    : {}
-                }
-                transition={{ duration: 0.3 }}
-                className="text-left border border-white/10 p-6 transition-colors duration-300 hover:border-gold/50 hover:bg-gold/5 disabled:cursor-default"
-              >
-                <p className="font-display text-lg text-snow tracking-wide mb-2">{opt.label}</p>
-                <p className="font-narrative italic text-snow/70 text-base">{opt.description}</p>
-              </motion.button>
-            ))}
+            {/* Columna derecha: opciones */}
+            <div className="bg-deep-blue/55 p-10 md:p-16 flex flex-col justify-center gap-4">
+              {OPTIONS.map((opt) => (
+                <motion.button
+                  key={opt.id}
+                  onClick={() => handleSelect(opt.id)}
+                  disabled={!!selected}
+                  whileHover={!selected ? { scale: 1.01 } : {}}
+                  animate={
+                    selected === opt.id
+                      ? { borderColor: 'rgba(232,177,75,1)', backgroundColor: 'rgba(197,138,42,0.12)' }
+                      : selected && selected !== opt.id
+                      ? { opacity: 0.3 }
+                      : {}
+                  }
+                  transition={{ duration: 0.3 }}
+                  className="text-left border border-white/20 bg-deep-blue/40 p-6 transition-colors duration-300 hover:border-gold/50 hover:bg-deep-blue/60 disabled:cursor-default"
+                >
+                  <p className="font-display text-xl text-snow tracking-wide mb-2">{opt.label}</p>
+                  <p className="font-narrative italic text-snow/90 text-lg">{opt.description}</p>
+                </motion.button>
+              ))}
+            </div>
           </div>
 
           <AnimatePresence>
@@ -96,14 +104,14 @@ export function HomeQuizInitial() {
                 transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
                 className="mt-10 border-l-2 border-gold/40 pl-6"
               >
-                <Typography variant="narrative-italic" className="text-snow/70 leading-loose">
+                <Typography variant="narrative-italic" className="text-snow/90 text-lg leading-loose">
                   {FOLLOWUP[selected]}
                 </Typography>
               </motion.div>
             )}
           </AnimatePresence>
         </motion.div>
-      </NarrativeColumn>
+      </div>
     </SectionWrapper>
   );
 }

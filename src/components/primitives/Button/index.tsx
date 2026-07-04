@@ -34,7 +34,7 @@ const variantStyles = {
     disabled:opacity-40 disabled:cursor-not-allowed
   `,
   ghost: `
-    text-snow/70 bg-transparent border border-white/20
+    text-snow/90 bg-transparent border border-white/20
     hover:text-snow hover:border-white/40 hover:bg-white/5
     transition-all duration-300 font-ui font-light uppercase tracking-wider
     disabled:opacity-20 disabled:cursor-not-allowed

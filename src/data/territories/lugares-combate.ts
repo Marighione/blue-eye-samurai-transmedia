@@ -4,7 +4,7 @@ export const lugaresCombateData: Territory = {
   id: 'lugares-combate',
   name: 'Los Lugares de Combate',
   subtitle: 'Donde los conflictos internos se vuelven externos',
-  dominantColor: '#8B1A1A',
+  dominantColor: '#FF776B',
   symbol: 'Salpicaduras de tinta/sangre sobre papel',
   centralConflict: 'Venganza vs justicia, honor vs supervivencia',
   narrativeDescription: 'Los lugares de combate no son solo físicos. Son el espacio donde los conflictos internos se vuelven externos, donde la decisión de herir o perdonar define quién se es. El combate en este universo no es espectáculo: es revelación.',

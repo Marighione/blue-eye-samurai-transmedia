@@ -31,15 +31,14 @@ export function TerritoryCard({ territory, isVisited }: TerritoryCardProps) {
         <div className="flex items-start justify-between gap-4">
           <div>
             <p
-              className="font-ui text-xs font-semibold uppercase tracking-widest mb-2"
-              style={{ color: territory.dominantColor, opacity: 0.7 }}
+              className="font-ui text-sm font-semibold uppercase tracking-widest mb-2 text-snow"
             >
               {territory.centralConflict}
             </p>
             <h3 className="font-display text-xl font-normal text-snow tracking-wide mb-2 group-hover:text-snow transition-colors">
               {territory.name}
             </h3>
-            <p className="font-narrative italic text-snow/70 text-sm leading-relaxed max-w-xs">
+            <p className="font-narrative italic text-snow/90 text-sm leading-relaxed max-w-xs">
               {territory.symbol}
             </p>
           </div>
@@ -47,13 +46,12 @@ export function TerritoryCard({ territory, isVisited }: TerritoryCardProps) {
           <div className="flex-shrink-0 mt-1">
             {isVisited ? (
               <span
-                className="font-ui text-xs uppercase tracking-widest"
-                style={{ color: territory.dominantColor, opacity: 0.6 }}
+                className="font-ui text-sm uppercase tracking-widest text-snow"
               >
                 Visitado
               </span>
             ) : (
-              <span className="font-ui text-xs text-snow/50 uppercase tracking-widest group-hover:text-snow/80 transition-colors duration-300">
+              <span className="font-ui text-sm text-snow/85 uppercase tracking-widest group-hover:text-snow/80 transition-colors duration-300">
                 Explorar →
               </span>
             )}

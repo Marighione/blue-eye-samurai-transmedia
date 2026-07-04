@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { staggerContainer, revealFromFog, characterReveal } from '@/lib/animations';
 import { allCharacters } from '@/data';
@@ -8,7 +9,6 @@ import { InkSplatter } from '@/components/primitives/InkSplatter';
 import { Divider } from '@/components/primitives/Divider';
 import type { Character } from '@/types/character';
 
-// Paleta de fondo por personaje cuando no hay imagen
 const BG_STYLES: Record<string, string> = {
   mizu: 'from-night via-deep-blue to-slate-blue',
   akemi: 'from-lacquer/30 via-night to-deep-blue',
@@ -16,11 +16,18 @@ const BG_STYLES: Record<string, string> = {
   ringo: 'from-wood/20 via-night to-deep-blue',
 };
 
+const HUB_IMAGES: Record<string, string> = {
+  mizu: '/images/mizu.jpg',
+  ringo: '/images/ringo.png',
+  akemi: '/images/akemi.jpg',
+  taigen: '/images/taigen.jpg',
+};
+
 export function PersonajesHub() {
   const [mizu, akemi, taigen, ringo] = allCharacters;
 
   return (
-    <div className="min-h-screen bg-night">
+    <div className="min-h-screen texture-dark">
       {/* Header */}
       <div className="pt-32 pb-16 px-8 md:px-20">
         <motion.div
@@ -28,13 +35,13 @@ export function PersonajesHub() {
           initial="hidden"
           animate="visible"
         >
-          <motion.p variants={revealFromFog} className="font-ui text-xs font-semibold uppercase tracking-widest text-mist mb-4">
+          <motion.p variants={revealFromFog} className="font-ui text-sm font-semibold uppercase tracking-widest text-snow mb-4">
             Los que existen
           </motion.p>
           <motion.h1 variants={revealFromFog} className="font-display text-5xl md:text-6xl font-semibold text-snow tracking-wide">
             Personajes
           </motion.h1>
-          <motion.p variants={revealFromFog} className="font-narrative italic text-snow/70 text-lg mt-4 max-w-lg">
+          <motion.p variants={revealFromFog} className="font-narrative italic text-snow/90 text-lg mt-4 max-w-lg">
             Cuatro personas que el sistema intentó definir antes de que pudieran definirse a sí mismas.
           </motion.p>
         </motion.div>
@@ -70,10 +77,24 @@ function CharacterEntry({ character, large = false }: { character: Character; la
         className="group block relative overflow-hidden"
         style={{ minHeight: large ? '70vh' : '50vh' }}
       >
-        {/* Fondo atmosférico */}
-        <div
-          className={`absolute inset-0 bg-gradient-to-br ${BG_STYLES[character.slug]} transition-all duration-700 group-hover:scale-105`}
-        />
+        {/* Imagen de portrait o fondo atmosférico */}
+        {HUB_IMAGES[character.slug] ? (
+          <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-105">
+            <Image
+              src={HUB_IMAGES[character.slug]}
+              alt={character.name}
+              fill
+              className="object-cover object-center"
+              sizes="50vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-night via-night/60 to-night/30" />
+            <div className="absolute inset-0 bg-gradient-to-r from-night/60 via-transparent to-transparent" />
+          </div>
+        ) : (
+          <div
+            className={`absolute inset-0 bg-gradient-to-br ${BG_STYLES[character.slug]} transition-all duration-700 group-hover:scale-105`}
+          />
+        )}
 
         {/* Accent de color del personaje en el borde inferior */}
         <div
@@ -85,28 +106,27 @@ function CharacterEntry({ character, large = false }: { character: Character; la
         <div className="absolute inset-0 bg-night/0 group-hover:bg-night/20 transition-colors duration-500" />
 
         {/* Contenido */}
-        <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-10">
+        <div className="absolute inset-0 flex flex-col justify-end px-8 pb-10 md:px-12 md:pb-12">
           <div className="relative z-10">
-            <p
-              className="font-ui text-xs font-semibold uppercase tracking-widest mb-3 transition-colors duration-300"
-              style={{ color: character.colorScheme.accent }}
-            >
+            <p className="font-ui text-sm font-semibold uppercase tracking-widest mb-3 text-snow">
               {character.theme === 'identity' && 'Identidad'}
               {character.theme === 'gender-power' && 'Poder y género'}
               {character.theme === 'honor' && 'Honor'}
               {character.theme === 'loyalty' && 'Lealtad'}
             </p>
 
-            <h2
-              className={`font-display font-normal text-snow tracking-widest mb-3 ${large ? 'text-4xl md:text-5xl' : 'text-3xl md:text-4xl'}`}
-            >
+            <h2 className="font-display font-normal text-snow tracking-widest text-3xl md:text-4xl">
               {character.name}
             </h2>
 
             {/* Frase signature — visible en hover */}
-            <p className="font-narrative italic text-snow/0 group-hover:text-snow/70 text-base max-w-sm leading-relaxed transition-all duration-500 delay-100 translate-y-2 group-hover:translate-y-0">
-              &ldquo;{character.signature_quote}&rdquo;
-            </p>
+            <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500">
+              <div className="overflow-hidden">
+                <p className="font-narrative italic text-snow/0 group-hover:text-snow/90 text-base max-w-sm leading-relaxed transition-all duration-500 delay-100 pt-3">
+                  &ldquo;{character.signature_quote}&rdquo;
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 

@@ -34,70 +34,6 @@ function calculateMask(answers: Answer[]): MaskId {
   return Object.entries(scores).reduce((a, b) => (b[1] > a[1] ? b : a))[0] as MaskId;
 }
 
-// SVG de máscara que se revela progresivamente
-function MaskSVG({ progress }: { progress: number }) {
-  // progress: 0 = nada, 1 = contorno, 2 = ojos, 3 = completa
-  return (
-    <svg
-      viewBox="0 0 120 140"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-28 h-32"
-      aria-hidden="true"
-    >
-      {/* Contorno — aparece en paso 1 */}
-      <motion.path
-        d="M60 10 C30 10, 10 35, 10 65 C10 95, 25 120, 60 130 C95 120, 110 95, 110 65 C110 35, 90 10, 60 10Z"
-        stroke="rgba(197,138,42,0.6)"
-        strokeWidth="1.5"
-        fill="none"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: progress >= 1 ? 1 : 0, opacity: progress >= 1 ? 1 : 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      />
-      {/* Ojos — aparecen en paso 2 */}
-      <motion.ellipse
-        cx="42" cy="60" rx="10" ry="7"
-        stroke="rgba(197,138,42,0.5)"
-        strokeWidth="1"
-        fill="none"
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: progress >= 2 ? 1 : 0, scale: progress >= 2 ? 1 : 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-      />
-      <motion.ellipse
-        cx="78" cy="60" rx="10" ry="7"
-        stroke="rgba(197,138,42,0.5)"
-        strokeWidth="1"
-        fill="none"
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: progress >= 2 ? 1 : 0, scale: progress >= 2 ? 1 : 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      />
-      {/* Boca — aparece en paso 3 */}
-      <motion.path
-        d="M40 95 Q60 108 80 95"
-        stroke="rgba(197,138,42,0.4)"
-        strokeWidth="1"
-        fill="none"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: progress >= 3 ? 1 : 0, opacity: progress >= 3 ? 1 : 0 }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-      />
-      {/* Línea central decorativa — completa en paso 3 */}
-      <motion.line
-        x1="60" y1="25" x2="60" y2="85"
-        stroke="rgba(197,138,42,0.2)"
-        strokeWidth="0.5"
-        strokeDasharray="3 3"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: progress >= 3 ? 1 : 0 }}
-        transition={{ duration: 0.4, delay: 0.3 }}
-      />
-    </svg>
-  );
-}
-
 export function TestMascaras() {
   const { state, refreshState } = useUserState();
   const [phase, setPhase] = useState<Phase>(
@@ -113,8 +49,6 @@ export function TestMascaras() {
     ? testMascarasData.questions[questionIndex]
     : null;
 
-  // progress para el SVG: cuántas preguntas respondidas
-  const svgProgress = answers.length + (selectedOption ? 0.5 : 0);
   const maskProfile = result
     ? testMascarasData.results.find((r) => r.id === result) ?? null
     : null;
@@ -128,9 +62,8 @@ export function TestMascaras() {
   }
 
   function handleSelectOption(optionId: QuizOptionId) {
-    if (showContinue) return;
     setSelectedOption(optionId);
-    setTimeout(() => setShowContinue(true), 400);
+    setShowContinue(true);
   }
 
   function handleContinue() {
@@ -153,10 +86,7 @@ export function TestMascaras() {
   }
 
   return (
-    <div
-      className="min-h-screen relative overflow-hidden"
-      style={{ backgroundColor: '#080E16' }}
-    >
+    <div className="min-h-screen relative overflow-hidden texture-dark">
       <InkSplatter variant="ink" size="lg" opacity={0.04} className="absolute top-24 left-10" index={3} />
       <InkSplatter variant="blood" size="md" opacity={0.03} className="absolute bottom-24 right-10" index={0} />
 
@@ -172,11 +102,7 @@ export function TestMascaras() {
             exit={{ opacity: 0, transition: { duration: 0.4 } }}
             className="min-h-screen flex flex-col justify-center px-8 md:px-20 py-32 max-w-2xl mx-auto"
           >
-            <motion.div variants={revealFromFog} className="mb-10 flex justify-start">
-              <MaskSVG progress={0} />
-            </motion.div>
-
-            <motion.p variants={revealFromFog} className="font-ui text-xs font-semibold uppercase tracking-widest text-mist mb-4">
+            <motion.p variants={revealFromFog} className="font-ui text-sm font-semibold uppercase tracking-widest text-snow mb-4">
               Experiencia interactiva
             </motion.p>
             <motion.h1 variants={revealFromFog} className="font-display text-4xl md:text-5xl font-semibold text-snow tracking-wide mb-6">
@@ -185,13 +111,13 @@ export function TestMascaras() {
             <motion.p variants={revealFromFog} className="font-narrative italic text-xl text-snow/80 mb-4 leading-relaxed">
               {testMascarasData.subtitle}
             </motion.p>
-            <motion.p variants={revealFromFog} className="font-narrative text-base text-snow/70 leading-loose mb-12">
+            <motion.p variants={revealFromFog} className="font-narrative text-base text-snow/90 leading-loose mb-12">
               {testMascarasData.introduction}
             </motion.p>
 
             {state.testMascarasResult && (
               <motion.div variants={revealFromFog} className="mb-8 p-4 border border-gold/20 bg-gold/5">
-                <p className="font-ui text-xs uppercase tracking-widest text-gold mb-1">Máscara anterior</p>
+                <p className="font-ui text-sm uppercase tracking-widest text-snow mb-1">Máscara anterior</p>
                 <p className="font-display text-lg text-snow">
                   {testMascarasData.results.find((r) => r.id === state.testMascarasResult)?.name}
                 </p>
@@ -216,73 +142,80 @@ export function TestMascaras() {
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="min-h-screen flex flex-col justify-center px-8 md:px-20 py-32 max-w-2xl mx-auto"
           >
-            {/* Máscara progresiva */}
-            <div className="flex items-center gap-8 mb-12">
-              <MaskSVG progress={Math.floor(svgProgress)} />
-              <div className="flex gap-2">
+            {/* Contenedor principal */}
+            <div
+              className="border border-white/10 p-8 md:p-12"
+              style={{ backgroundColor: 'rgba(27, 38, 59, 0.8)' }}
+            >
+              {/* Título del test */}
+              <p className="font-ui text-sm uppercase tracking-widest text-gold mb-6">
+                Test de Máscaras
+              </p>
+
+              {/* Indicador de progreso */}
+              <div className="flex gap-2 mb-12">
                 {[0, 1, 2].map((i) => (
                   <div
                     key={i}
-                    className="h-px w-10 transition-colors duration-500"
+                    className="h-px flex-1 transition-colors duration-500"
                     style={{
                       backgroundColor: i <= questionIndex
-                        ? 'rgba(197,138,42,0.8)'
-                        : 'rgba(255,255,255,0.1)',
+                        ? 'rgba(197, 138, 42, 0.8)'
+                        : 'rgba(255, 255, 255, 0.1)',
                     }}
                   />
                 ))}
               </div>
-              <p className="font-ui text-xs uppercase tracking-widest text-mist/70">
-                {questionIndex + 1} / 3
+              <p className="font-ui text-sm uppercase tracking-widest text-snow mb-8">
+                Pregunta {questionIndex + 1} de 3
               </p>
+
+              {/* Pregunta */}
+              <p className="font-display text-2xl md:text-3xl text-snow tracking-wide mb-10 leading-snug">
+                {currentQuestion.text}
+              </p>
+
+              <Divider variant="sword" className="mb-10 opacity-15" />
+
+              {/* Opciones */}
+              <div className="space-y-3">
+                {currentQuestion.options.map((opt) => (
+                  <motion.button
+                    key={opt.id}
+                    onClick={() => handleSelectOption(opt.id)}
+                    animate={
+                      selectedOption === opt.id
+                        ? { borderColor: 'rgba(232,177,75,1)', backgroundColor: 'rgba(197,138,42,0.1)' }
+                        : selectedOption && selectedOption !== opt.id
+                        ? { opacity: 0.5 }
+                        : { opacity: 1 }
+                    }
+                    whileHover={{ borderColor: 'rgba(197,138,42,0.5)' }}
+                    transition={{ duration: 0.25 }}
+                    className="w-full text-left border border-white/10 px-5 py-4 cursor-pointer"
+                  >
+                    <span className="font-display text-sm text-mist mr-3">{opt.id})</span>
+                    <span className="font-narrative text-base text-snow/80">{opt.text}</span>
+                  </motion.button>
+                ))}
+              </div>
+
+              <AnimatePresence>
+                {showContinue && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="mt-10"
+                  >
+                    <Button variant="primary" onClick={handleContinue} size="md">
+                      {phase === 'q-2' ? 'Revelar mi máscara' : 'Siguiente →'}
+                    </Button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-
-            {/* Pregunta */}
-            <p className="font-display text-2xl md:text-3xl text-snow tracking-wide mb-10 leading-snug">
-              {currentQuestion.text}
-            </p>
-
-            <Divider variant="sword" className="mb-10 opacity-15" />
-
-            {/* Opciones */}
-            <div className="space-y-3">
-              {currentQuestion.options.map((opt) => (
-                <motion.button
-                  key={opt.id}
-                  onClick={() => handleSelectOption(opt.id)}
-                  disabled={showContinue && selectedOption !== opt.id}
-                  animate={
-                    selectedOption === opt.id
-                      ? { borderColor: 'rgba(232,177,75,1)', backgroundColor: 'rgba(197,138,42,0.1)' }
-                      : selectedOption && selectedOption !== opt.id
-                      ? { opacity: 0.35 }
-                      : {}
-                  }
-                  whileHover={!selectedOption ? { borderColor: 'rgba(197,138,42,0.4)', backgroundColor: 'rgba(197,138,42,0.04)' } : {}}
-                  transition={{ duration: 0.25 }}
-                  className="w-full text-left border border-white/10 bg-white/2 px-5 py-4 disabled:cursor-default"
-                >
-                  <span className="font-display text-xs text-mist mr-3">{opt.id})</span>
-                  <span className="font-narrative text-base text-snow/80">{opt.text}</span>
-                </motion.button>
-              ))}
-            </div>
-
-            <AnimatePresence>
-              {showContinue && (
-                <motion.div
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                  className="mt-10"
-                >
-                  <Button variant="primary" onClick={handleContinue} size="md">
-                    {phase === 'q-2' ? 'Revelar mi máscara' : 'Siguiente →'}
-                  </Button>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </motion.div>
         )}
 
@@ -305,13 +238,8 @@ function MaskResult({ profile, onRedo }: { profile: MaskResult; onRedo: () => vo
       animate="visible"
       className="min-h-screen flex flex-col justify-center px-8 md:px-20 py-32 max-w-3xl mx-auto"
     >
-      {/* Máscara completa animada */}
-      <motion.div variants={revealFromFog} className="mb-10">
-        <MaskSVG progress={3} />
-      </motion.div>
-
-      <motion.p variants={revealFromFog} className="font-ui text-xs uppercase tracking-widest text-mist/70 mb-4">
-        Tu máscara
+      <motion.p variants={revealFromFog} className="font-ui text-sm uppercase tracking-widest text-mist mb-4">
+        Test de Máscaras — Tu resultado
       </motion.p>
 
       <motion.h1
@@ -324,16 +252,16 @@ function MaskResult({ profile, onRedo }: { profile: MaskResult; onRedo: () => vo
 
       <Divider variant="sword" className="mb-8 opacity-20" />
 
-      <motion.p variants={revealFromFog} className="font-narrative text-lg text-snow/70 leading-loose mb-12 max-w-xl">
+      <motion.p variants={revealFromFog} className="font-narrative text-lg text-snow/90 leading-loose mb-12 max-w-xl">
         {profile.description}
       </motion.p>
 
       {/* Documento desbloqueado */}
       <motion.div variants={revealFromFog} className="mb-10 p-6 border border-gold/20 bg-gold/5">
-        <p className="font-ui text-xs uppercase tracking-widest text-gold mb-3">
+        <p className="font-ui text-sm uppercase tracking-widest text-snow mb-3">
           Nueva pieza encontrada
         </p>
-        <p className="font-narrative text-base text-snow/70">
+        <p className="font-narrative text-base text-snow/90">
           El Testimonio anónimo ha sido añadido al archivo. Una voz sin nombre que habla sobre libertad.
         </p>
       </motion.div>

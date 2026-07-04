@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { NarrativeColumn } from '@/components/layout/NarrativeColumn';
 import { Divider } from '@/components/primitives/Divider';
 import { Badge } from '@/components/primitives/Badge';
@@ -29,19 +30,11 @@ const MOTIVATION_LABELS = {
   deep: 'Motivación profunda',
 };
 
-// Fondos atmosféricos por personaje
-const HERO_BG: Record<string, string> = {
-  mizu: `radial-gradient(ellipse 70% 80% at 40% 30%, rgba(74,144,196,0.25) 0%, transparent 60%),
-         radial-gradient(ellipse 60% 50% at 80% 70%, rgba(27,38,59,0.8) 0%, transparent 60%),
-         #0D1B2A`,
-  akemi: `radial-gradient(ellipse 60% 70% at 60% 30%, rgba(139,0,0,0.3) 0%, transparent 60%),
-          radial-gradient(ellipse 80% 60% at 20% 70%, rgba(26,6,6,0.9) 0%, transparent 60%),
-          #0D0505`,
-  taigen: `radial-gradient(ellipse 70% 60% at 50% 40%, rgba(74,63,56,0.4) 0%, transparent 60%),
-           #1A1614`,
-  ringo: `radial-gradient(ellipse 70% 70% at 40% 30%, rgba(197,138,42,0.15) 0%, transparent 60%),
-          radial-gradient(ellipse 60% 60% at 70% 70%, rgba(122,74,21,0.2) 0%, transparent 60%),
-          #110D08`,
+const HERO_IMAGES: Record<string, { src: string; position: string }> = {
+  mizu: { src: '/images/mizu-detalle.png', position: '50% 20%' },
+  akemi: { src: '/images/akemi-detalle.png', position: '50% 20%' },
+  taigen: { src: '/images/taigen-detalle.png', position: '50% 20%' },
+  ringo: { src: '/images/ringo-detalle.png', position: '50% 20%' },
 };
 
 interface CharacterProfileProps {
@@ -61,14 +54,25 @@ export function CharacterProfile({ character }: CharacterProfileProps) {
     state.quizMoralResult === 'llama';
 
   return (
-    <div className="min-h-screen bg-night">
+    <div className="min-h-screen texture-dark">
       {/* Hero del personaje */}
-      <section
-        className="relative min-h-screen flex items-end overflow-hidden"
-        style={{ background: HERO_BG[character.slug] }}
-      >
-        <div className="absolute inset-0 vignette pointer-events-none" />
-        <InkSplatter variant="ink" size="lg" opacity={0.05} className="absolute top-20 right-16" index={0} />
+      <section className="relative min-h-screen flex items-end overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={HERO_IMAGES[character.slug]?.src || `/images/${character.slug}-detalle.png`}
+            alt=""
+            fill
+            className="object-cover"
+            style={{ objectPosition: HERO_IMAGES[character.slug]?.position || '50% 20%' }}
+            quality={85}
+            priority
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-night via-night/60 to-night/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-night/60 via-transparent to-transparent" />
+        </div>
+        <div className="absolute inset-0 vignette pointer-events-none z-[1]" />
+        <InkSplatter variant="ink" size="lg" opacity={0.05} className="absolute top-20 right-16 z-[1]" index={0} />
 
         <motion.div
           variants={staggerContainer}
@@ -105,7 +109,7 @@ export function CharacterProfile({ character }: CharacterProfileProps) {
       </section>
 
       {/* Descripción narrativa */}
-      <section className="py-24 md:py-32 bg-night">
+      <section className="relative section-fade-top py-24 md:py-32">
         <NarrativeColumn>
           <motion.div
             initial="hidden"
@@ -113,14 +117,11 @@ export function CharacterProfile({ character }: CharacterProfileProps) {
             viewport={{ once: true, margin: '-100px' }}
             variants={staggerContainer}
           >
-            <motion.p variants={revealFromFog} className="font-ui text-xs font-semibold uppercase tracking-widest text-mist mb-8">
-              Quién es
-            </motion.p>
             {character.narrativeDescription.split('\n\n').map((para, i) => (
               <motion.p
                 key={i}
                 variants={revealFromFog}
-                className="font-narrative text-lg text-snow/75 leading-loose mb-6"
+                className="font-narrative text-lg text-snow/85 leading-loose mb-6"
               >
                 {para}
               </motion.p>
@@ -132,7 +133,7 @@ export function CharacterProfile({ character }: CharacterProfileProps) {
       <Divider variant="sword" className="mx-8 md:mx-20 opacity-20" />
 
       {/* Motivaciones */}
-      <section className="py-20 md:py-28 bg-night">
+      <section className="py-24 md:py-36">
         <NarrativeColumn width="content">
           <motion.div
             initial="hidden"
@@ -140,26 +141,26 @@ export function CharacterProfile({ character }: CharacterProfileProps) {
             viewport={{ once: true, margin: '-80px' }}
             variants={staggerContainer}
           >
-            <motion.p variants={revealFromFog} className="font-ui text-xs font-semibold uppercase tracking-widest text-mist mb-10">
+            <motion.h2 variants={revealFromFog} className="font-display text-2xl md:text-3xl text-snow tracking-wide mb-14">
               Motivaciones
-            </motion.p>
-            <div className="space-y-8">
+            </motion.h2>
+            <div className="space-y-10">
               {character.motivations.map((m, i) => (
-                <motion.div key={m.level} variants={revealFromFog} className="flex gap-6">
+                <motion.div key={m.level} variants={revealFromFog} className="flex gap-8">
                   <div
                     className="w-1 flex-shrink-0 rounded-full mt-1"
                     style={{
                       backgroundColor: character.colorScheme.accent,
                       opacity: 1 - i * 0.2,
                       height: '100%',
-                      minHeight: '1.5rem',
+                      minHeight: '2rem',
                     }}
                   />
                   <div>
-                    <p className="font-ui text-xs uppercase tracking-widest text-mist/70 mb-2">
+                    <p className="font-ui text-base uppercase tracking-widest text-snow mb-3">
                       {MOTIVATION_LABELS[m.level]}
                     </p>
-                    <p className="font-narrative text-lg text-snow/70 leading-relaxed">{m.text}</p>
+                    <p className="font-narrative text-xl text-snow/90 leading-relaxed">{m.text}</p>
                   </div>
                 </motion.div>
               ))}
@@ -172,7 +173,7 @@ export function CharacterProfile({ character }: CharacterProfileProps) {
       {character.symbolicObjects.length > 0 && (
         <>
           <Divider variant="dots" className="mx-8 md:mx-20" />
-          <section className="py-20 md:py-28 bg-night">
+          <section className="py-24 md:py-36">
             <NarrativeColumn width="content">
               <motion.div
                 initial="hidden"
@@ -180,10 +181,10 @@ export function CharacterProfile({ character }: CharacterProfileProps) {
                 viewport={{ once: true, margin: '-80px' }}
                 variants={staggerContainer}
               >
-                <motion.p variants={revealFromFog} className="font-ui text-xs font-semibold uppercase tracking-widest text-mist mb-10">
+                <motion.h2 variants={revealFromFog} className="font-display text-2xl md:text-3xl text-snow tracking-wide mb-14">
                   Objetos simbólicos
-                </motion.p>
-                <div className="space-y-2">
+                </motion.h2>
+                <div className="space-y-4">
                   {character.symbolicObjects.map((obj) => (
                     <motion.div key={obj.id} variants={revealFromFog}>
                       <SymbolicObject object={obj} />
@@ -199,7 +200,7 @@ export function CharacterProfile({ character }: CharacterProfileProps) {
       <Divider variant="sword" className="mx-8 md:mx-20 opacity-20" />
 
       {/* La mirada del otro */}
-      <section className="py-20 md:py-28 bg-night">
+      <section className="py-24 md:py-36">
         <NarrativeColumn width="content">
           <motion.div
             initial="hidden"
@@ -216,10 +217,7 @@ export function CharacterProfile({ character }: CharacterProfileProps) {
       {character.diaryEntries.length > 0 && (
         <>
           <Divider variant="dots" className="mx-8 md:mx-20" />
-          <section
-            className="py-20 md:py-28"
-            style={{ backgroundColor: '#0A1018' }}
-          >
+          <section className="py-24 md:py-36">
             <NarrativeColumn>
               <motion.div
                 initial="hidden"
@@ -227,10 +225,10 @@ export function CharacterProfile({ character }: CharacterProfileProps) {
                 viewport={{ once: true, margin: '-80px' }}
                 variants={staggerContainer}
               >
-                <motion.p variants={revealFromFog} className="font-ui text-xs font-semibold uppercase tracking-widest text-mist mb-10">
+                <motion.h2 variants={revealFromFog} className="font-display text-2xl md:text-3xl text-snow tracking-wide mb-14">
                   Diario personal
-                </motion.p>
-                <div className="space-y-10">
+                </motion.h2>
+                <div className="space-y-12">
                   {character.diaryEntries.map((entry) => (
                     <motion.div key={entry.id} variants={revealFromFog}>
                       <DiaryEntry
@@ -248,9 +246,9 @@ export function CharacterProfile({ character }: CharacterProfileProps) {
       )}
 
       {/* CTA final */}
-      <section className="py-20 px-8 md:px-20 bg-night border-t border-white/5">
+      <section className="py-20 px-8 md:px-20 border-t border-white/5">
         <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between max-w-site mx-auto">
-          <p className="font-narrative italic text-snow/70 text-base max-w-sm">
+          <p className="font-narrative italic text-snow/90 text-base max-w-sm">
             ¿Querés conocer su camino desde adentro?
           </p>
           <div className="flex flex-col sm:flex-row gap-4">

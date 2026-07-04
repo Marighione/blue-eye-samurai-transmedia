@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { NarrativeColumn } from '@/components/layout/NarrativeColumn';
 import { Divider } from '@/components/primitives/Divider';
 import { Button } from '@/components/primitives/Button';
@@ -13,6 +14,14 @@ import { processUnlockConditions } from '@/lib/unlock-logic';
 import { useUserState } from '@/context/UserStateContext';
 import { getCharacterBySlug } from '@/data';
 import type { Territory } from '@/types/territory';
+
+const TERRITORY_IMAGES: Record<string, { src: string; position: string }> = {
+  'caminos-exilio': { src: '/images/caminos-del-exilio.png', position: '50% 20%' },
+  'palacios-poder': { src: '/images/palacios-del-poder.png', position: '50% 30%' },
+  'lugares-combate': { src: '/images/lugares-de-combate.png', position: '50% 30%' },
+  'espacios-ocultamiento': { src: '/images/espacios-de-ocultamiento.png', position: '50% 20%' },
+  'espacios-intimos': { src: '/images/espacios-intimos.png', position: '60% 20%' },
+};
 
 const CHAR_THEME_LABELS: Record<string, string> = {
   identity: 'Identidad',
@@ -39,20 +48,25 @@ export function TerritoryDetail({ territory }: TerritoryDetailProps) {
     .filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-night">
-      {/* Hero con color dominante del territorio */}
-      <section
-        className="relative min-h-[65vh] flex items-end overflow-hidden"
-        style={{
-          background: `
-            radial-gradient(ellipse 80% 70% at 40% 30%, ${territory.dominantColor}20 0%, transparent 65%),
-            radial-gradient(ellipse 60% 60% at 80% 80%, ${territory.dominantColor}10 0%, transparent 60%),
-            #0D1B2A
-          `,
-        }}
-      >
-        <div className="absolute inset-0 vignette pointer-events-none" />
-        <InkSplatter variant="ink" size="lg" opacity={0.05} className="absolute top-20 right-16" index={1} />
+    <div className="min-h-screen texture-dark">
+      {/* Hero con imagen del territorio */}
+      <section className="relative min-h-[65vh] flex items-end overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={TERRITORY_IMAGES[territory.id]?.src || '/images/caminos-del-exilio.png'}
+            alt=""
+            fill
+            className="object-cover"
+            style={{ objectPosition: TERRITORY_IMAGES[territory.id]?.position || '50% 30%' }}
+            quality={85}
+            priority
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-night via-night/60 to-night/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-night/60 via-transparent to-transparent" />
+        </div>
+        <div className="absolute inset-0 vignette pointer-events-none z-[1]" />
+        <InkSplatter variant="ink" size="lg" opacity={0.05} className="absolute top-20 right-16 z-[1]" index={1} />
 
         <motion.div
           variants={staggerContainer}
@@ -66,7 +80,7 @@ export function TerritoryDetail({ territory }: TerritoryDetailProps) {
           >
             <Link
               href="/universo"
-              className="font-ui text-xs uppercase tracking-widest text-snow/60 hover:text-snow/90 transition-colors duration-300"
+              className="font-ui text-sm uppercase tracking-widest text-snow/80 hover:text-snow/90 transition-colors duration-300"
             >
               ← Universo
             </Link>
@@ -74,8 +88,7 @@ export function TerritoryDetail({ territory }: TerritoryDetailProps) {
 
           <motion.p
             variants={revealFromFog}
-            className="font-ui text-xs font-semibold uppercase tracking-widest mb-4"
-            style={{ color: territory.dominantColor }}
+            className="font-ui text-sm font-semibold uppercase tracking-widest mb-4 text-snow"
           >
             {territory.centralConflict}
           </motion.p>
@@ -87,7 +100,7 @@ export function TerritoryDetail({ territory }: TerritoryDetailProps) {
             {territory.name}
           </motion.h1>
 
-          <motion.p variants={revealFromFog} className="font-narrative italic text-snow/70 text-lg max-w-md">
+          <motion.p variants={revealFromFog} className="font-narrative italic text-snow/90 text-lg max-w-md">
             {territory.symbol}
           </motion.p>
         </motion.div>
@@ -100,7 +113,7 @@ export function TerritoryDetail({ territory }: TerritoryDetailProps) {
       </section>
 
       {/* Descripción narrativa */}
-      <section className="py-24 md:py-32">
+      <section className="relative section-fade-top py-24 md:py-32">
         <NarrativeColumn>
           <motion.div
             initial="hidden"
@@ -108,10 +121,10 @@ export function TerritoryDetail({ territory }: TerritoryDetailProps) {
             viewport={{ once: true, margin: '-80px' }}
             variants={staggerContainer}
           >
-            <motion.p variants={revealFromFog} className="font-ui text-xs uppercase tracking-widest text-mist/70 mb-8">
+            <motion.p variants={revealFromFog} className="font-ui text-sm uppercase tracking-widest text-snow mb-8">
               El territorio
             </motion.p>
-            <motion.p variants={revealFromFog} className="font-narrative text-lg text-snow/75 leading-loose mb-12">
+            <motion.p variants={revealFromFog} className="font-narrative text-lg text-snow/85 leading-loose mb-12">
               {territory.narrativeDescription}
             </motion.p>
 
@@ -121,7 +134,7 @@ export function TerritoryDetail({ territory }: TerritoryDetailProps) {
               className="border-l-2 pl-6 py-2 my-8"
               style={{ borderColor: `${territory.dominantColor}50` }}
             >
-              <p className="font-narrative italic text-lg text-snow/65 leading-loose">
+              <p className="font-narrative italic text-lg text-snow/80 leading-loose">
                 {territory.shortStory}
               </p>
             </motion.blockquote>
@@ -141,7 +154,7 @@ export function TerritoryDetail({ territory }: TerritoryDetailProps) {
               viewport={{ once: true, margin: '-60px' }}
               variants={staggerContainer}
             >
-              <motion.p variants={revealFromFog} className="font-ui text-xs uppercase tracking-widest text-mist/70 mb-8">
+              <motion.p variants={revealFromFog} className="font-ui text-sm uppercase tracking-widest text-snow mb-8">
                 Personajes de este territorio
               </motion.p>
 
@@ -158,8 +171,7 @@ export function TerritoryDetail({ territory }: TerritoryDetailProps) {
                         }}
                       >
                         <p
-                          className="font-ui text-xs uppercase tracking-widest mb-1"
-                          style={{ color: char.colorScheme.accent, opacity: 0.7 }}
+                          className="font-ui text-sm uppercase tracking-widest mb-1 text-snow"
                         >
                           {CHAR_THEME_LABELS[char.theme]}
                         </p>
@@ -188,7 +200,7 @@ export function TerritoryDetail({ territory }: TerritoryDetailProps) {
               variants={revealFromFog}
               className="max-w-xl"
             >
-              <p className="font-ui text-xs uppercase tracking-widest text-gold mb-4">
+              <p className="font-ui text-sm uppercase tracking-widest text-snow mb-4">
                 Experiencia RV relacionada
               </p>
               <p className="font-narrative text-base text-snow/80 leading-relaxed mb-6">
@@ -208,13 +220,13 @@ export function TerritoryDetail({ territory }: TerritoryDetailProps) {
         <div className="flex justify-between items-center max-w-site mx-auto">
           <Link
             href="/universo"
-            className="font-ui text-sm text-snow/60 hover:text-snow/90 transition-colors duration-300 uppercase tracking-widest"
+            className="font-ui text-sm text-snow/80 hover:text-snow/90 transition-colors duration-300 uppercase tracking-widest"
           >
             ← El Mundo
           </Link>
           <Link
             href="/archivo"
-            className="font-ui text-sm text-snow/60 hover:text-snow/90 transition-colors duration-300 uppercase tracking-widest"
+            className="font-ui text-sm text-snow/80 hover:text-snow/90 transition-colors duration-300 uppercase tracking-widest"
           >
             Abrir el archivo →
           </Link>

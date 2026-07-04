@@ -99,7 +99,7 @@ export const quizMoralData: MoralQuiz = {
       description: 'Priorizás la acción directa. Creés en las consecuencias sobre las intenciones. El fuego que te quema también ilumina.',
       rvRecommendation: 'El camino del combate',
       unlockedDocumentIds: ['doc-07'],
-      color: '#D4520A',
+      color: '#FF8855',
     },
     {
       id: 'balanza',
@@ -109,7 +109,7 @@ export const quizMoralData: MoralQuiz = {
       rvRecommendation: 'El camino del honor',
       unlockedDocumentIds: ['doc-07'],
       unlockedCharacterContent: 'taigen',
-      color: '#C58A2A',
+      color: '#ECB357',
     },
     {
       id: 'rio',
@@ -119,7 +119,7 @@ export const quizMoralData: MoralQuiz = {
       rvRecommendation: 'El camino de la justicia',
       unlockedDocumentIds: ['doc-07'],
       unlockedCharacterContent: 'akemi',
-      color: '#4A90C4',
+      color: '#00BCCE',
     },
     {
       id: 'niebla',

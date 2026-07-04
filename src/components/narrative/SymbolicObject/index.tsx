@@ -19,12 +19,12 @@ export function SymbolicObject({ object }: SymbolicObjectProps) {
         aria-expanded={expanded}
       >
         <div>
-          <p className="font-display text-base font-normal text-snow tracking-wide mb-1">
+          <p className="font-display text-lg font-normal text-snow tracking-wide mb-1">
             {object.name}
           </p>
-          <p className="font-narrative italic text-snow/70 text-sm">{object.description}</p>
+          <p className="font-narrative italic text-snow/90 text-base">{object.description}</p>
         </div>
-        <span className="font-ui text-snow/60 text-sm mt-0.5 flex-shrink-0 select-none">
+        <span className="font-ui text-snow/80 text-sm mt-0.5 flex-shrink-0 select-none">
           {expanded ? '▲' : '▼'}
         </span>
       </button>
@@ -39,7 +39,7 @@ export function SymbolicObject({ object }: SymbolicObjectProps) {
             className="overflow-hidden"
           >
             <div className="px-5 pb-5 border-t border-white/5 pt-4">
-              <p className="font-narrative text-base text-snow/80 leading-relaxed">
+              <p className="font-narrative text-lg text-snow/80 leading-relaxed">
                 {object.narrativeText}
               </p>
             </div>

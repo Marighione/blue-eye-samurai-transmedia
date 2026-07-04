@@ -16,20 +16,23 @@ export function PerspectiveSelector({ perspectives }: PerspectiveSelectorProps) 
 
   return (
     <div>
-      <p className="font-ui text-xs font-semibold uppercase tracking-widest text-mist/60 mb-6">
+      <h2 className="font-display text-2xl md:text-3xl text-snow tracking-wide mb-4">
         La mirada del otro
+      </h2>
+      <p className="font-narrative italic text-snow/70 text-lg mb-10">
+        ¿Cómo lo ven quienes lo rodean?
       </p>
 
-      {/* Selectores */}
-      <div className="flex flex-wrap gap-4 mb-8">
+      {/* Tabs */}
+      <div className="flex flex-wrap gap-3 mb-12">
         {perspectives.map((p) => (
           <button
             key={p.observerId}
             onClick={() => setActiveId(activeId === p.observerId ? null : p.observerId)}
-            className={`font-ui text-sm font-medium transition-all duration-300 pb-1 border-b ${
+            className={`font-display text-base md:text-lg tracking-wide px-6 py-3 border transition-all duration-300 ${
               activeId === p.observerId
-                ? 'text-gold border-gold'
-                : 'text-snow/70 border-transparent hover:text-snow hover:border-snow/30'
+                ? 'text-gold border-gold/60 bg-gold/10'
+                : 'text-snow/80 border-white/15 hover:border-gold/40 hover:text-snow hover:bg-white/5'
             }`}
           >
             {p.observerName}
@@ -41,16 +44,16 @@ export function PerspectiveSelector({ perspectives }: PerspectiveSelectorProps) 
         {active ? (
           <motion.div
             key={active.observerId}
-            initial={{ opacity: 0, y: 6 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.35 }}
-            className="border-l-2 border-gold/30 pl-6"
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.4 }}
+            className="border-l-2 border-gold/40 pl-8 py-2"
           >
-            <p className="font-narrative italic text-snow/70 text-lg leading-loose">
+            <p className="font-narrative italic text-snow/90 text-xl leading-loose">
               &ldquo;{active.text}&rdquo;
             </p>
-            <p className="font-ui text-xs text-mist/70 uppercase tracking-widest mt-3">
+            <p className="font-ui text-base text-mist uppercase tracking-widest mt-4">
               — {active.observerName}
             </p>
           </motion.div>
@@ -60,14 +63,14 @@ export function PerspectiveSelector({ perspectives }: PerspectiveSelectorProps) 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="font-narrative italic text-snow/50 text-base"
+            className="font-narrative italic text-snow/60 text-lg"
           >
             Seleccioná un observador para ver su perspectiva.
           </motion.p>
         )}
       </AnimatePresence>
 
-      <Divider variant="dots" className="mt-8" />
+      <Divider variant="dots" className="mt-12" />
     </div>
   );
 }

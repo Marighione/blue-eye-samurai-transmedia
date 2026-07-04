@@ -4,7 +4,7 @@ export const caminosExilioData: Territory = {
   id: 'caminos-exilio',
   name: 'Los Caminos del Exilio',
   subtitle: 'El único territorio que acepta a quienes los otros rechazan',
-  dominantColor: '#4A90C4',
+  dominantColor: '#00BCCE',
   symbol: 'Huellas en la nieve que se borran',
   centralConflict: 'Otredad y desplazamiento',
   narrativeDescription: 'Los caminos entre aldeas son el espacio del que no pertenece a ningún lugar. Aquí viajan los ronin, los exiliados, los diferentes. El camino no es una metáfora: es literalmente el único territorio que acepta a quienes los otros territorios rechazan.',

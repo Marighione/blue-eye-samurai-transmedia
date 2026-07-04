@@ -55,7 +55,7 @@ export const testMascarasData: MaskTest = {
       description: 'Convertiste tu diferencia en tu mayor amenaza. Antes de que el mundo te rechace, vos ya estás en posición de combate. Es efectivo. Es también agotador. La pregunta es: ¿podés bajar la guardia?',
       unlockedDocumentIds: ['doc-09'],
       imageDescription: 'Máscara con expresión feroz, marcas de combate',
-      color: '#8B1A1A',
+      color: '#FF776B',
     },
     {
       id: 'honor',
@@ -63,7 +63,7 @@ export const testMascarasData: MaskTest = {
       description: 'Construiste tu identidad sobre principios que no negociás. Eso te da estabilidad. También puede convertirse en una jaula si los principios son los que otros eligieron por vos. ¿Son realmente tuyos o los heredaste sin revisarlos?',
       unlockedDocumentIds: ['doc-09'],
       imageDescription: 'Máscara ceremonial con grabados formales',
-      color: '#C58A2A',
+      color: '#ECB357',
     },
     {
       id: 'supervivencia',

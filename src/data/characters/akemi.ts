@@ -66,7 +66,7 @@ Su historia es la de una mujer que descubre que la libertad no le fue negada: si
   portraitImage: '/images/characters/akemi-portrait.png',
   colorScheme: {
     primary: '#1A0A0A',
-    secondary: '#8B0000',
-    accent: '#C58A2A',
+    secondary: '#FF776B',
+    accent: '#ECB357',
   },
 };

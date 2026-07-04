@@ -43,10 +43,10 @@ Su presencia al lado de Mizu funciona como espejo: le muestra lo que ella podrí
     },
   ],
   heroImage: '/images/characters/ringo-hero.jpg',
-  portraitImage: '/images/characters/ringo-portrait.png',
+  portraitImage: '/images/ringo.png',
   colorScheme: {
     primary: '#2A1A0A',
     secondary: '#6B4C3B',
-    accent: '#E8B14B',
+    accent: '#ECB357',
   },
 };

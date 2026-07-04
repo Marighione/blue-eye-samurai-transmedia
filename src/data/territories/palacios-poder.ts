@@ -4,7 +4,7 @@ export const palaciosPoderId: Territory = {
   id: 'palacios-poder',
   name: 'Los Palacios del Poder',
   subtitle: 'Donde el poder se exhibe y la identidad se sacrifica',
-  dominantColor: '#C58A2A',
+  dominantColor: '#FF8855',
   symbol: 'Pantallas shoji que ocultan siluetas',
   centralConflict: 'Género, poder y obediencia',
   narrativeDescription: 'Los palacios son el lugar donde el poder se exhibe y la identidad se sacrifica. Aquí las mujeres son monedas de intercambio político, los hombres aprenden a sonreír mientras planean traiciones y la belleza es una armadura tan eficaz como el acero.',
