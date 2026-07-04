@@ -72,42 +72,46 @@ export function HomeQuizInitial() {
             {/* Columna derecha: opciones */}
             <div className="bg-deep-blue/55 p-10 md:p-16 flex flex-col justify-center gap-4">
               {OPTIONS.map((opt) => (
-                <motion.button
-                  key={opt.id}
-                  onClick={() => handleSelect(opt.id)}
-                  disabled={!!selected}
-                  whileHover={!selected ? { scale: 1.01 } : {}}
-                  animate={
-                    selected === opt.id
-                      ? { borderColor: 'rgba(232,177,75,1)', backgroundColor: 'rgba(197,138,42,0.12)' }
-                      : selected && selected !== opt.id
-                      ? { opacity: 0.3 }
-                      : {}
-                  }
-                  transition={{ duration: 0.3 }}
-                  className="text-left border border-white/20 bg-deep-blue/40 p-6 transition-colors duration-300 hover:border-gold/50 hover:bg-deep-blue/60 disabled:cursor-default"
-                >
-                  <p className="font-display text-xl text-snow tracking-wide mb-2">{opt.label}</p>
-                  <p className="font-narrative italic text-snow/90 text-lg">{opt.description}</p>
-                </motion.button>
+                <div key={opt.id}>
+                  <motion.button
+                    onClick={() => handleSelect(opt.id)}
+                    disabled={!!selected}
+                    whileHover={!selected ? { scale: 1.01 } : {}}
+                    animate={
+                      selected === opt.id
+                        ? { borderColor: 'rgba(232,177,75,1)', backgroundColor: 'rgba(197,138,42,0.12)' }
+                        : selected && selected !== opt.id
+                        ? { opacity: 0.3 }
+                        : {}
+                    }
+                    transition={{ duration: 0.3 }}
+                    className="w-full text-left border border-white/20 bg-deep-blue/40 p-6 transition-colors duration-300 hover:border-gold/50 hover:bg-deep-blue/60 disabled:cursor-default"
+                  >
+                    <p className="font-display text-xl text-snow tracking-wide mb-2">{opt.label}</p>
+                    <p className="font-narrative italic text-snow/90 text-lg">{opt.description}</p>
+                  </motion.button>
+
+                  <AnimatePresence>
+                    {selected === opt.id && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden border-l-2 border-gold/40 border-r border-b border-r-gold/20 border-b-gold/20"
+                        style={{ backgroundColor: 'rgba(197,138,42,0.08)' }}
+                      >
+                        <div className="p-6">
+                          <Typography variant="narrative-italic" className="text-snow/90 text-lg leading-loose">
+                            {FOLLOWUP[selected]}
+                          </Typography>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               ))}
             </div>
           </div>
-
-          <AnimatePresence>
-            {selected && (
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="mt-10 border-l-2 border-gold/40 pl-6"
-              >
-                <Typography variant="narrative-italic" className="text-snow/90 text-lg leading-loose">
-                  {FOLLOWUP[selected]}
-                </Typography>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </motion.div>
       </div>
     </SectionWrapper>

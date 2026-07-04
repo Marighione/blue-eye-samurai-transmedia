@@ -144,7 +144,7 @@ export function CharacterProfile({ character }: CharacterProfileProps) {
             <motion.h2 variants={revealFromFog} className="font-display text-2xl md:text-3xl text-snow tracking-wide mb-14">
               Motivaciones
             </motion.h2>
-            <div className="space-y-10">
+            <div className="bg-deep-blue/55 border border-white/5 p-10 md:p-16 space-y-10">
               {character.motivations.map((m, i) => (
                 <motion.div key={m.level} variants={revealFromFog} className="flex gap-8">
                   <div
@@ -184,7 +184,7 @@ export function CharacterProfile({ character }: CharacterProfileProps) {
                 <motion.h2 variants={revealFromFog} className="font-display text-2xl md:text-3xl text-snow tracking-wide mb-14">
                   Objetos simbólicos
                 </motion.h2>
-                <div className="space-y-4">
+                <div className="bg-deep-blue/55 border border-white/5 p-10 md:p-16 space-y-4">
                   {character.symbolicObjects.map((obj) => (
                     <motion.div key={obj.id} variants={revealFromFog}>
                       <SymbolicObject object={obj} />
@@ -208,7 +208,9 @@ export function CharacterProfile({ character }: CharacterProfileProps) {
             viewport={{ once: true, margin: '-80px' }}
             variants={revealFromFog}
           >
-            <PerspectiveSelector perspectives={character.othersPerspectives} />
+            <div className="bg-deep-blue/55 border border-white/5 p-10 md:p-16">
+              <PerspectiveSelector perspectives={character.othersPerspectives} />
+            </div>
           </motion.div>
         </NarrativeColumn>
       </section>

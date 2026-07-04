@@ -6,7 +6,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { NarrativeColumn } from '@/components/layout/NarrativeColumn';
 import { Divider } from '@/components/primitives/Divider';
-import { Button } from '@/components/primitives/Button';
 import { InkSplatter } from '@/components/primitives/InkSplatter';
 import { staggerContainer, revealFromFog } from '@/lib/animations';
 import { addVisitedTerritory } from '@/lib/user-state';
@@ -188,50 +187,6 @@ export function TerritoryDetail({ territory }: TerritoryDetailProps) {
         </section>
       )}
 
-      {/* CTA RV si corresponde */}
-      {territory.rvExperienceId && (
-        <>
-          <Divider variant="dots" className="mx-8 md:mx-20" />
-          <section className="py-16 px-8 md:px-20">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-40px' }}
-              variants={revealFromFog}
-              className="max-w-xl"
-            >
-              <p className="font-ui text-sm uppercase tracking-widest text-snow mb-4">
-                Experiencia RV relacionada
-              </p>
-              <p className="font-narrative text-base text-snow/80 leading-relaxed mb-6">
-                Existe un recorrido de realidad virtual que te sumerge en este territorio.
-                Las decisiones que tomás en la RV son físicas, no narrativas.
-              </p>
-              <Button variant="primary" href="/realidad-virtual">
-                Entrar en persona
-              </Button>
-            </motion.div>
-          </section>
-        </>
-      )}
-
-      {/* Navegación entre territorios */}
-      <section className="py-12 px-8 md:px-20 border-t border-white/5">
-        <div className="flex justify-between items-center max-w-site mx-auto">
-          <Link
-            href="/universo"
-            className="font-ui text-sm text-snow/80 hover:text-snow/90 transition-colors duration-300 uppercase tracking-widest"
-          >
-            ← El Mundo
-          </Link>
-          <Link
-            href="/archivo"
-            className="font-ui text-sm text-snow/80 hover:text-snow/90 transition-colors duration-300 uppercase tracking-widest"
-          >
-            Abrir el archivo →
-          </Link>
-        </div>
-      </section>
     </div>
   );
 }

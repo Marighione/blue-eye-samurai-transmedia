@@ -100,7 +100,7 @@ export function TestMascaras() {
             initial="hidden"
             animate="visible"
             exit={{ opacity: 0, transition: { duration: 0.4 } }}
-            className="min-h-screen flex flex-col justify-center px-8 md:px-20 py-32 max-w-2xl mx-auto"
+            className="min-h-screen flex flex-col justify-center px-8 md:px-20 py-32 max-w-5xl mx-auto"
           >
             <motion.p variants={revealFromFog} className="font-ui text-sm font-semibold uppercase tracking-widest text-snow mb-4">
               Experiencia interactiva
@@ -140,7 +140,7 @@ export function TestMascaras() {
             animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
             exit={{ opacity: 0, filter: 'blur(8px)', y: -20 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="min-h-screen flex flex-col justify-center px-8 md:px-20 py-32 max-w-2xl mx-auto"
+            className="min-h-screen flex flex-col justify-center px-8 md:px-20 py-32 max-w-5xl mx-auto"
           >
             {/* Contenedor principal */}
             <div

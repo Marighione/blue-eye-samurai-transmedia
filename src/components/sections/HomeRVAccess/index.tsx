@@ -51,7 +51,7 @@ export function HomeRVAccess() {
 
         <motion.div variants={revealFromFog}>
           <Button variant="primary" href="/realidad-virtual" size="lg">
-            Entrar en persona
+            Reservá tu experiencia
           </Button>
         </motion.div>
       </motion.div>
